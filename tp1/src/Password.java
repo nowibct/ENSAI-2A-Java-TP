@@ -43,13 +43,14 @@ public class Password {
     public static String bruteForce6Digit(String targetHash) {
         for (int i = 0; i <= 999999; i++) { // The method will iterate through all numbers from 000000 to 999999
             String test = String.format("%06d", i);
-            String hashedtest = hashPassword(test); // For each number, Generate and compare hash with the given target hash
+            String hashedtest = hashPassword(test); // For each number, Generate and compare hash with the given target
+                                                    // hash
 
             if (hashedtest.equals(targetHash)) { // If a match is found, return the original number else return null
-                return test; // 
+                return test; //
             }
         }
-        return null; // 
+        return null; //
     }
 
     /**
@@ -65,11 +66,32 @@ public class Password {
      * 
      * @param password the password to check
      * @return true if the password is strong, false otherwise
+     *         Character.isUpperCase(<char>)
+     *         Character.isDigit(<char>)
+     *         Character.isWhitespace(<char>)
      */
     public static boolean isStrongPassword(String password) {
+        if (password.length() >= 12) {
+            boolean hasUpper = false;
+            boolean hasLower = false;
+            boolean hasDigit = false;
+            boolean hasWhitespace = false;
 
-        // Code here
+            for (int i = 0; i < password.length(); i++) {
+                char ch = password.charAt(i);
+                if (Character.isUpperCase(ch)) {
+                    hasUpper = true;
+                } else if (Character.isLowerCase(ch)) {
+                    hasLower = true;
+                } else if (Character.isDigit(ch)) {
+                    hasDigit = true;
+                } else if (Character.isWhitespace(ch)) {
+                    hasWhitespace = true;
+                }
+            }
 
+            return hasUpper && hasLower && hasDigit && !hasWhitespace; // opérateur logique pour renvoyer true que si toutes les conditions sont vérifiées
+        }
         return false;
     }
 
