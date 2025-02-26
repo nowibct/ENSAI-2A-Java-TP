@@ -37,12 +37,19 @@ public class Password {
      * 
      * @param targetHash the target hash to match
      * @return the 6-digit number that matches, or null if no match is found
+     *         Use method hashPassword()
+     *         String.format("%06d", 123)➡️ “000123”
      */
     public static String bruteForce6Digit(String targetHash) {
+        for (int i = 0; i <= 999999; i++) { // The method will iterate through all numbers from 000000 to 999999
+            String test = String.format("%06d", i);
+            String hashedtest = hashPassword(test); // For each number, Generate and compare hash with the given target hash
 
-        // Code here
-
-        return null;
+            if (hashedtest.equals(targetHash)) { // If a match is found, return the original number else return null
+                return test; // 
+            }
+        }
+        return null; // 
     }
 
     /**
