@@ -3,8 +3,10 @@ package fr.ensai.library;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,57 +15,57 @@ import java.util.Map;
 public class Library {
     // Attributes
     private String name;
-    private ArrayList books;
+    private List<Item> items;
 
     /**
      * Constructs a new Library object.
      */
-    public Library(String name, ArrayList books) {
+    public Library(String name) {
         this.name = name;
-        this.books = books;
+        this.items = new ArrayList<>();
     }
 
     /**
-     * Adds a book to the library’s collection
+     * Adds an item to the library’s collection
      */
 
-    public addBook(Book book) {
-        // check if the book exists
-
+    public void addItem(Item item) {
         // Add elements to the ArrayList
-        books.add(book);
+        this.items.add(item);
     }
 
     /**
-     * print all books of the library
+     * print all items of the library
      * use toString() method from Book class
      * or print a message if there is no book
      */
-    
-    public displayBooks() {
+
+    public void displayItems() {
+        System.out.println("\n*********************************************");
+        System.out.println("\n*             All items                     *");
+        System.out.println("\n*********************************************");
 
         // Implementing isEmpty() Method
-        if(books.isEmpty())
-        System.out.println("There is no book");
-        
-        else
-            // Iterating using for loop
-            for (int i = 0; i < books.size(); i++) 
-                
-            // Printing and display the elements in ArrayList 
-            System.out.print(book[i].toString);
-        
+        if (this.items.isEmpty()) {
+            System.out.println("There is no item");
+        }
+
+        else {
+            for (Item item : this.items) {
+                System.out.println(item);
+            }
+        }
     }
 
     /**
-     * Loads books from a CSV file and adds them to the library.
+     * Loads items from a CSV file and adds them to the library.
      * 
-     * @param filePath The path to the CSV file containing book data.
+     * @param filePath The path to the CSV file containing item data.
      * @throws IOException If there is an error reading the file, an
      *                     {@link IOException} will be thrown.
      */
 
-    public void loadBooksFromCSV(String filePath) {
+    public void loadItemsFromCSV(String filePath) {
 
         URL url = getClass().getClassLoader().getResource(filePath);
 
@@ -85,13 +87,13 @@ public class Library {
                     // Check if author already exists in the map
                     Author author = authors.get(authorName);
                     if (author == null) {
-                        author = newAuthor(authorName);
+                        author = new Author(authorName, 0, "");
                         authors.put(authorName, author);
                         System.out.println(author.toString());
                     }
                     Book book = new Book(isbn, title, author, year, pageCount);
 
-                    this.addIem(book);
+                    this.addItem(book);
                 }
             }
         } catch (
