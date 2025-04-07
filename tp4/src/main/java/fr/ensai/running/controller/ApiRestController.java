@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.ensai.running.model.Athlete;
+import fr.ensai.running.model.Competition;
 import fr.ensai.running.service.AthleteService;
+import fr.ensai.running.service.CompetitionService;
 
 @RestController
 @RequestMapping("/api")
@@ -54,6 +56,37 @@ public class ApiRestController {
             return ResponseEntity.notFound().build();
         }
         athleteService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Autowired
+    private CompetitionService competitionService;
+
+    /**
+     * Get all competitions
+     */
+    @GetMapping("/competition")
+    public List<Competition> allC() {
+
+        return competitionService.findAll();
+    }
+
+    @GetMapping("/competition/{id}")
+    public ResponseEntity<Competition> getCompetitionById(@PathVariable Long id) {
+        Competition competition = competitionService.findById(id);
+        if (competition == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(competition);
+    }
+
+    @DeleteMapping("/competition/{id}")
+    public ResponseEntity<Void> deleteCompetition(@PathVariable Long id) {
+        Competition existingCompetition = competitionService.findById(id);
+        if (existingCompetition == null) {
+            return ResponseEntity.notFound().build();
+        }
+        competitionService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
